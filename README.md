@@ -1,4 +1,4 @@
-#CCfrag: Scanning folding potential of coiled-coil fragments with AlphaFold
+# CCfrag: Scanning folding potential of coiled-coil fragments with AlphaFold
 
 ## Summary
 
