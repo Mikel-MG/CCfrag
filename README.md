@@ -6,6 +6,10 @@ This document is under construction!
 
 ![alt text](examples/figures/figure_1.png)
 
+![alt text](examples/figures/CCfrag_EEA1_Colabfold.png)
+
+![alt text](examples/figures/CCfrag_EEA1_ESMfold.png)
+
 ## Installation
 
 ### Dependencies
