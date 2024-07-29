@@ -434,7 +434,7 @@ class Integrator:
                 # if there are any flanking sequence, remove them, and update target_pdb
                 try:
                     N_length_flank = len(dict_parameters["flank"])
-                    print(N_length_flank)
+                    # print(N_length_flank)
                     if N_length_flank > 0:
                         # remove flanking sequences
                         df_pdb = trim_flanking_seq(df_pdb, N_length_flank)
