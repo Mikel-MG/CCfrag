@@ -198,8 +198,8 @@ class Divider:
             + Generates fragments that cover the entirety of the sequence
         """
         # generate a test sequence
-        seq10 = "".join(list(map(str, range(10))))
-        sequence = seq10 * 4 + seq10[::-1]
+        seqAA = "".join(list("ACDEFGHIKL"))
+        sequence = seqAA * 4 + seqAA[::-1]
 
         print(f"Testing fragment generation with L={self.L} and O={self.O}")
         self._sanitize_parameters(sequence)
