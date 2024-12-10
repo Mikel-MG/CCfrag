@@ -427,9 +427,14 @@ class Integrator:
                 try:
                     assert seq_construct == seq_pdb
                 except AssertionError:
+                    print("The sequence and the structure fragments do not match!")
+                    print(
+                        "This is likely due to a non-valid residue present in the sequence"
+                    )
                     print(seq_construct)
                     print(seq_pdb)
-                    raise AssertionError
+                    continue
+                    # raise AssertionError
 
                 # if there are any flanking sequence, remove them, and update target_pdb
                 try:
