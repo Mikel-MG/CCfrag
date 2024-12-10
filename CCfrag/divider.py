@@ -156,8 +156,16 @@ class Divider:
 
     def _sanitize_parameters(self, sequence):
         """
-        This function will check that the input parameters are feasible and that will not be conducive to error
+        This function checks that the input parameters are feasible and that will not be conducive to error
         """
+        # The sequence must consist solely of standard amino acids in their one-letter format.
+        standard_amino_acids = set("ACDEFGHIKLMNPQRSTVWY")  # Standard 20 amino acids
+        if all(residue in standard_amino_acids for residue in sequence.upper()):
+            pass
+        else:
+            errmsg = "Non-standard residues detected in input sequence!"
+            raise Exception(errmsg)
+
         # L must be either -1 (no fragment modeling), or a minimum of 10
         if self.L == -1 or self.L >= 10:
             pass
