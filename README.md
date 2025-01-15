@@ -71,7 +71,7 @@ showing that a piece-wise modeling approach can be used for:
 
 For the divider module:
 
-```bash
+```
 L: Length of window size
 
 O: Length of overlap between windows (L takes priority in the last fragment)
@@ -86,7 +86,7 @@ tag: String to be attached to the specification name
 
 For the assembler:
 
-```bash
+```
 list_features: List of features to be computed for the predicted models. The list of features implemented is [plddt, para (parallel/antiparallel), kih(knobs-into-holes interactions with Socket), pae(pairwise alignment error), heli(helical/not with DSSP)]
 
 prediction_format: Colabfold / esmfold (default: colabfold)
@@ -101,5 +101,4 @@ flatten features in overlapping models (default: np.mean)
 
 ## References
 
-1. Martinez-Goikoetxea, M. CCfrag: Scanning folding potential of coiled-coil fragments with AlphaFold. 2024.05.24.595610 Preprint at https://doi.org/10.1101/2024.05.24.595610 (2024).
-
+1. Mikel Martinez-Goikoetxea, CCfrag: scanning folding potential of coiled-coil fragments with AlphaFold, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae195, https://doi.org/10.1093/bioadv/vbae195 
