@@ -84,7 +84,7 @@ tag: String to be attached to the specification name
 ```
 
 
-For the assembler:
+For the integrator:
 
 ```
 list_features: List of features to be computed for the predicted models. The list of features implemented is [plddt, para (parallel/antiparallel), kih(knobs-into-holes interactions with Socket), pae(pairwise alignment error), heli(helical/not with DSSP)]
