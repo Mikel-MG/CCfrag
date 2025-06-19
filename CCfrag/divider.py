@@ -238,7 +238,7 @@ class Divider:
                 sequence = f"{row.sequence}"
 
                 output.write(header + "\n")
-                output.write(":".join([sequence] * self.nmer))
+                output.write(":".join([sequence] * self.nmer) + "\n")
 
         return 0
 
