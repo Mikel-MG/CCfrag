@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -47,22 +48,7 @@ class Divider:
 
         return list_segment_idx
 
-    def generate_queries(
-        self, input_fasta, output_path, format="single_line_fasta", overwrite=False
-    ):
-        """
-        Generates query files from an input FASTA using the specified format.
-
-        Args:
-            input_fasta (str): Path to the input FASTA file.
-            output_path (str): Directory where output files will be written.
-            format (str, optional): Output format. Must be one of "single_line_fasta" or
-                "multi_line_fasta". Defaults to "single_line_fasta".
-            overwrite (bool, optional): Whether to overwrite existing files. Defaults to False.
-
-        Returns:
-            None
-        """
+    def _generate_query_data(self, input_fasta):
         # for each sequence in the input_fasta file, apply the windowing
         for main_header, full_sequence in read_fasta(input_fasta):
             print(main_header)
@@ -94,6 +80,38 @@ class Divider:
                     [seq_name] * N,
                 )
             )
+
+            dict_fasta_features = {
+                "seq_name": seq_name,
+                "full_seq": full_sequence,
+                "main_header": main_header,
+            }
+
+            yield list_queries, dict_fasta_features
+
+    def generate_queries(
+        self, input_fasta, output_path, format="single_line_fasta", overwrite=False
+    ):
+        """
+        Generates query files from an input FASTA using the specified format.
+
+        Args:
+            input_fasta (str): Path to the input FASTA file.
+            output_path (str): Directory where output files will be written.
+            format (str, optional): Output format. Must be one of "single_line_fasta" or
+                "multi_line_fasta". Defaults to "single_line_fasta".
+            overwrite (bool, optional): Whether to overwrite existing files. Defaults to False.
+
+        Note:
+            This method is intended for small-scale, deep-scanning use cases involving a limited
+            number of sequences. For large-scale, piecewise modeling, consider using
+            `generate_queries_minimal` instead.
+        """
+        for list_queries, dict_fasta_features in self._generate_query_data(input_fasta):
+            # get relevant features of the fasta file
+            seq_name = dict_fasta_features["seq_name"]
+            full_sequence = dict_fasta_features["full_seq"]
+            main_header = dict_fasta_features["main_header"]
 
             # export queries to csv format
             # create queries dataframe
@@ -166,6 +184,63 @@ class Divider:
             with open(output_source_file, "w") as output:
                 output.write(f"{main_header}\n")
                 output.write(f"{full_sequence}\n")
+
+    def generate_queries_minimal(self, path_input_fasta: Path, path_output: Path):
+        """
+        Generates query files from an input FASTA using the specified format.
+
+        Args:
+            path_input_fasta (path): Path to the input FASTA file.
+            path_output (path): Directory where output files will be written.
+            overwrite (bool, optional): Whether to overwrite existing files. Defaults to False.
+        """
+        # compute all the query data
+        list_total_queries = []
+        for list_queries, _ in self._generate_query_data(path_input_fasta):
+            list_total_queries += list_queries
+
+        print(f"Total computed queries: {len(list_total_queries)}")
+
+        # export queries to csv format
+        # create queries dataframe
+        df_queries = pd.DataFrame(
+            list_total_queries,
+            columns=pd.Series(["i", "sequence", "idx", "nmer", "seq_name"]),
+        )
+        df_queries["from"] = df_queries["idx"].apply(lambda x: x[0])
+        df_queries["to"] = df_queries["idx"].apply(lambda x: x[1])
+        df_queries["construct_name"] = (
+            df_queries["seq_name"]
+            + "_"
+            + df_queries["nmer"].astype(str)
+            + "_"
+            + df_queries["from"].astype(str)
+            + "-"
+            + df_queries["to"].astype(str)
+        )
+
+        print(f"Size of query dataframe: {df_queries.shape}")
+
+        path_output.mkdir(exist_ok=True)
+        output_csv = path_output / "constructs.csv"
+        df_queries.to_csv(output_csv)
+
+        output_fasta = path_output / "queries.fasta"
+        total_queries = df_queries.shape[0]
+
+        with open(output_fasta, "w") as output:
+
+            # create the actual queries
+            for i, (_, row) in enumerate(df_queries.iterrows()):
+                if i % 100 == 0:
+                    print(f"\rProcessing query {i} / {total_queries}")
+                header = f">{row.construct_name}"
+                sequence = f"{row.sequence}"
+
+                output.write(header + "\n")
+                output.write(":".join([sequence] * self.nmer))
+
+        return 0
 
     def _sanitize_parameters(self, sequence):
         """
