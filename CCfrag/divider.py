@@ -48,10 +48,20 @@ class Divider:
         return list_segment_idx
 
     def generate_queries(
-        self, input_fasta, output_path, format="single_fasta", overwrite=False
+        self, input_fasta, output_path, format="single_line_fasta", overwrite=False
     ):
         """
-        This is the top-level operating function of the disassembler
+        Generates query files from an input FASTA using the specified format.
+
+        Args:
+            input_fasta (str): Path to the input FASTA file.
+            output_path (str): Directory where output files will be written.
+            format (str, optional): Output format. Must be one of "single_line_fasta" or
+                "multi_line_fasta". Defaults to "single_line_fasta".
+            overwrite (bool, optional): Whether to overwrite existing files. Defaults to False.
+
+        Returns:
+            None
         """
         # for each sequence in the input_fasta file, apply the windowing
         for main_header, full_sequence in read_fasta(input_fasta):
@@ -88,7 +98,8 @@ class Divider:
             # export queries to csv format
             # create queries dataframe
             df_queries = pd.DataFrame(
-                list_queries, columns=["i", "sequence", "idx", "nmer", "seq_name"]
+                list_queries,
+                columns=pd.Series(["i", "sequence", "idx", "nmer", "seq_name"]),
             )
             df_queries["from"] = df_queries["idx"].apply(lambda x: x[0])
             df_queries["to"] = df_queries["idx"].apply(lambda x: x[1])
@@ -121,13 +132,13 @@ class Divider:
                 header = f">{row.construct_name}"
                 sequence = f"{row.sequence}"
 
-                if format == "single_fasta":
+                if format == "single_line_fasta":
                     with open(
                         f"{specification_path}/queries/{name}.fasta", "w"
                     ) as output:
                         output.write(header + "\n")
                         output.write(":".join([sequence] * self.nmer))
-                elif format == "multi_fasta":
+                elif format == "multi_line_fasta":
                     with open(
                         f"{specification_path}/queries/{name}.fasta", "w"
                     ) as output:
@@ -135,7 +146,9 @@ class Divider:
                             output.write(header + "\n")
                             output.write(sequence + "\n")
                 else:
-                    print("ERROR! Please use format 'single_fasta' or 'multi_fasta'")
+                    print(
+                        "ERROR! Please use format 'single_line_fasta' or 'multi_line_fasta'"
+                    )
                     return 0
 
             # export parameters to a csv format
