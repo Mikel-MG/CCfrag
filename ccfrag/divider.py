@@ -2,7 +2,6 @@ import json
 import os
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 from .common import read_fasta
@@ -252,7 +251,7 @@ class Divider:
 
     def _sanitize_parameters(self, sequence: str):
         """
-        This function checks that the input parameters are feasible and that will not be conducive to error
+        Checks that the input parameters are valid
         """
         # The sequence must consist solely of standard amino acids in their one-letter format.
         standard_amino_acids = set("ACDEFGHIKLMNPQRSTVWY")  # Standard 20 amino acids
@@ -285,37 +284,3 @@ class Divider:
         else:
             errmsg = "O (overlap_length) must be smaller than window_length!"
             raise Exception(errmsg)
-
-    def debug_check(self):
-        """
-        This function will check that
-        * The fragment generation function:
-            + Generates all fragments of equal size
-            + Generates fragments that cover the entirety of the sequence
-        """
-        # generate a test sequence
-        seqAA = "".join(list("ACDEFGHIKL"))
-        sequence = seqAA * 4 + seqAA[::-1]
-
-        print(f"Testing fragment generation with L={self.L} and O={self.O}")
-        self._sanitize_parameters(sequence)
-
-        # visually check that size of all fragments are identical
-        list_segment_idx = self._generate_fragment_idx(sequence)
-        print(list_segment_idx)
-
-        # check that the fragments cover 100% of the sequence
-        vec_test = np.zeros(len(sequence))
-
-        for i, j in list_segment_idx:
-            segment = sequence[i:j]
-            print(" " * i + segment)
-
-            # check that each fragment is of the correct size
-            assert len(segment) == self.L
-            vec_test[i:j] = 1
-
-        assert vec_test.sum() == len(sequence)
-
-        print(f"No errors found with L={self.L} and O={self.O}")
-        print()
