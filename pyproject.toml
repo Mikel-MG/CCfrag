@@ -1,0 +1,22 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "CCfrag" 
+version = "0.9.0"
+description = "Scanning folding potential of coiled-coil fragments with AlphaFold"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    { name = "Mikel Martinez Goikoetxea", email = "mikel.martinez@tuebingen.mpg.de" }
+]
+dependencies = [
+    "numpy",
+    "matplotlib",
+    "pandas",
+    "biopandas",
+    "biopython"
+]
