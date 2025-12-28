@@ -144,7 +144,7 @@ class Divider:
             path_sequence_output = output_path / seq_name
             if self.tag is not None:
                 path_sequence_output = output_path / f"{seq_name}_{self.tag}"
-            path_sequence_output.mkdir(exist_ok=True)
+            path_sequence_output.mkdir(exist_ok=True, parents=True)
 
             # create specification-specific folder
             specification_name = f"{self.nmer}_{self.L}_{self.O}"
