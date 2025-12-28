@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 
 import pandas as pd
@@ -142,37 +141,36 @@ class Divider:
             )
 
             # create sequence-specific folder (to store all sequence-derived constructs)
-            sequence_output_path = f"{output_path}/{seq_name}"
+            path_sequence_output = output_path / seq_name
             if self.tag is not None:
-                sequence_output_path = f"{output_path}/{seq_name}_{self.tag}"
-            os.makedirs(sequence_output_path, exist_ok=True)
+                path_sequence_output = output_path / f"{seq_name}_{self.tag}"
+            path_sequence_output.mkdir(exist_ok=True)
 
             # create specification-specific folder
             specification_name = f"{self.nmer}_{self.L}_{self.O}"
-            specification_path = f"{sequence_output_path}/{specification_name}"
-            os.makedirs(specification_path, exist_ok=overwrite)
-            df_queries.to_csv(f"{specification_path}/constructs.csv")
+            path_specification = path_sequence_output / specification_name
+            path_specification.mkdir(exist_ok=overwrite)
+            df_queries.to_csv(f"{path_specification}/constructs.csv")
 
             # create the actual queries
-            os.makedirs(f"{specification_path}/queries", exist_ok=overwrite)
+            path_queries = path_specification / "queries"
+            path_queries.mkdir(exist_ok=overwrite)
             for i, row in df_queries.iterrows():
                 name = f"{row.construct_name}"
                 header = f">{row.construct_name}"
                 sequence = f"{row.sequence}"
 
                 if format == "single_line_fasta":
-                    with open(
-                        f"{specification_path}/queries/{name}.fasta", "w"
-                    ) as output:
+                    with open(path_queries / f"{name}.fasta", "w") as output:
                         output.write(header + "\n")
                         output.write(":".join([sequence] * self.nmer))
+
                 elif format == "multi_line_fasta":
-                    with open(
-                        f"{specification_path}/queries/{name}.fasta", "w"
-                    ) as output:
+                    with open(path_queries / f"{name}.fasta", "w") as output:
                         for j in range(self.nmer):
                             output.write(header + "\n")
                             output.write(sequence + "\n")
+
                 else:
                     print(
                         "ERROR! Please use format 'single_line_fasta' or 'multi_line_fasta'"
@@ -186,11 +184,11 @@ class Divider:
                 "O": self.O,
                 "flank": self.flank,
             }
-            with open(f"{specification_path}/parameters.json", "w") as output:
+            with open(f"{path_specification}/parameters.json", "w") as output:
                 json.dump(dict_params, output)
 
             # copy source sequence to the output path (to be used in the analysis part)
-            output_source_file = f"{sequence_output_path}/source_{seq_name}.fasta"
+            output_source_file = f"{path_sequence_output}/source_{seq_name}.fasta"
             with open(output_source_file, "w") as output:
                 output.write(f"{main_header}\n")
                 output.write(f"{full_sequence}\n")
@@ -210,7 +208,6 @@ class Divider:
 
         print(f"Total computed queries: {len(list_total_queries)}")
 
-        # export queries to csv format
         # create queries dataframe
         df_queries = pd.DataFrame(
             list_total_queries,
@@ -230,6 +227,7 @@ class Divider:
 
         print(f"Size of query dataframe: {df_queries.shape}")
 
+        # export queries to csv format
         path_output.mkdir(exist_ok=True)
         output_csv = path_output / "constructs.csv"
         df_queries.to_csv(output_csv)
