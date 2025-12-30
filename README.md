@@ -6,7 +6,7 @@
 
 **Results**: We developed CCfrag to leverage AlphaFold for the piece-wise modeling of coiled coils. The user can create a specification, defined by window size, length of overlap, and oligomerization state, and the program produces the files necessary to run structural predictions with AlphaFold. Then, the structural models and their scores are integrated into a rich per-residue representation defined by sequence- or structure-based features, which can be visualized or employed for further analysis. Our results suggest that removing coiled-coil sequences from their native context can in some case improve the prediction confidence and avoids bent models with spurious contacts. In this paper, we present various use cases of CCfrag, and propose that fragment-based prediction is useful for understanding the properties of long, fibrous coiled coils, by showing local features not seen in full-length models.
 
-![alt text](examples/figures/figure_1.png)
+![alt text](figures/figure_1.png)
 
 ## Installation
 
@@ -47,11 +47,11 @@ CCfrag representation of EEA1 (shown above in all of its misfolded glory).
 
 ### prediction with AlphaFold (technically, ColabFold)
 
-![alt text](examples/figures/CCfrag_EEA1_Colabfold.png)
+![alt text](figures/CCfrag_EEA1_Colabfold.png)
 
 ### prediction with ESMfold
 
-![alt text](examples/figures/CCfrag_EEA1_ESMfold.png)
+![alt text](figures/CCfrag_EEA1_ESMfold.png)
 
 
 For details regarding the interpretation of these plots, check our manuscript^1!
