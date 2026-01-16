@@ -10,32 +10,20 @@
 
 ## Installation
 
+```bash
+# use pip to download, package, and install the latest CCfrag version
+pip install git+https://github.com/Mikel-MG/CCfrag.git
+
+# run tests (optional but recommended)
+python3 -m ccfrag.testing
+```
+
 ### Dependencies
 
-These programs are necessary for the coiled-coil interaction analysis
-
+Besides the Python modules which the above command automatically installs, CCfrag requires two additional programs for the detection of coiled-coil structure:
 * DSSP (v4)
 * [Socket](http://coiledcoils.chm.bris.ac.uk/socket/)
 
-CCfrag utilizes core functionalities from several widely-used modules, which are expected to remain stable across various versions. Should you encounter any issues, please feel free to reach out to me. Kindly include the error message and version details for the following packages:
-
-* BioPython
-* PandasPdb
-* Matplotlib
-* Pandas
-* Numpy
-
-
-### Cloning the repository
-
-Downloading the `CCfrag` folder and its files is enough. The location is not
-important, but it should be taken into account when importing the module.
-
-A convenient way of downloading the project is with a `git` command
-
-```bash
-git clone https://github.com/Mikel-MG/CCfrag ~/myfolder
-```
 
 ## Examples
 
