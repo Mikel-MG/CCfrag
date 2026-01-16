@@ -27,22 +27,26 @@ Besides the Python modules which the above command automatically installs, CCfra
 
 ## Examples
 
-As shown in the figure at the **Summary** section, AlphaFold can struggle, among
-other things, when making models of long coiled coils. These models can show
+As shown in the figure at the **Summary** section, AlphaFold can struggle 
+when making models of long coiled coils. These models can show
 unfolded regions, or areas with very poor prediction confidence (plDDT). These
 problems can be aleviated via piece-wise modeling. For example, here is the
-CCfrag representation of EEA1 (shown above in all of its misfolded glory).
+CCfrag representation of EEA1 (shown in the figure above in all of its misfolded glory).
 
 ### prediction with AlphaFold (technically, ColabFold)
 
-![alt text](figures/CCfrag_EEA1_Colabfold.png)
+![alt text](./figures/CCfrag_EEA1_Colabfold.png)
 
 ### prediction with ESMfold
 
-![alt text](figures/CCfrag_EEA1_ESMfold.png)
+![alt text](./figures/CCfrag_EEA1_ESMfold.png)
+
+### prediction with ESMfold + flanking GCN4 adaptors
+
+![alt text](./figures/CCfrag_EEA1_GCN4_ESMfold.png)
 
 
-For details regarding the interpretation of these plots, check our manuscript^1!
+For details regarding the interpretation of these plots, check our manuscript[^1]!
 
 In the [examples](https://github.com/Mikel-MG/CCfrag/tree/main/examples) section
 you can find Jupyter notebooks that illustrate how to use this program, together
@@ -89,4 +93,4 @@ flatten features in overlapping models (default: np.mean)
 
 ## References
 
-1. Mikel Martinez-Goikoetxea, CCfrag: scanning folding potential of coiled-coil fragments with AlphaFold, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae195, https://doi.org/10.1093/bioadv/vbae195 
+[^1]: Mikel Martinez-Goikoetxea, CCfrag: scanning folding potential of coiled-coil fragments with AlphaFold, Bioinformatics Advances, Volume 5, Issue 1, 2025, vbae195, https://doi.org/10.1093/bioadv/vbae195 
