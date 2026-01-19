@@ -1,5 +1,10 @@
 # Examples
 
+Note: Only the notebooks containing code, output, and figures are shown here for illustration purposes. The full dataset, including the structural models and dataframes with the analyses, can be accessed in the [Mendeley repository](https://data.mendeley.com/datasets/zmj8nh2cws/1)
+
+> Martinez Goikoetxea, Mikel (2026), “CCfrag: scanning folding potential of coiled-coil fragments with AlphaFold”, Mendeley Data, V1, doi: 10.17632/zmj8nh2cws.1
+
+
 ## Piecewise modeling with CCfrag
 
 Here are some examples that illustrate the features and usage of CCfrag
